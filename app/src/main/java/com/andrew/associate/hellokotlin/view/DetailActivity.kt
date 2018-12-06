@@ -1,20 +1,37 @@
 package com.andrew.associate.hellokotlin.view
 
+import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import com.andrew.associate.hellokotlin.model.*
 import com.andrew.associate.hellokotlin.model.api.ApiRepository
 import com.andrew.associate.hellokotlin.model.api.ApiRestInterface
 import com.andrew.associate.hellokotlin.R
+import com.andrew.associate.hellokotlin.R.id.add_to_favorite
+import com.andrew.associate.hellokotlin.R.menu.detail_menu
+import com.andrew.associate.hellokotlin.model.db.Favorite
+import com.andrew.associate.hellokotlin.model.db.database
+import com.andrew.associate.hellokotlin.model.intface.DetailGameView
+import com.andrew.associate.hellokotlin.model.repository.RepoPresenter
 import com.andrew.associate.hellokotlin.presenter.GameDetailPresenter
 import com.andrew.associate.hellokotlin.presenter.GameEventPresenter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail.*
+import org.jetbrains.anko.db.delete
+import org.jetbrains.anko.db.insert
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.toast
 
 class DetailActivity : AppCompatActivity(), DetailGameView.View {
 
     private lateinit var detPres: GameDetailPresenter
+
+    private var menuItem: Menu? = null
+    private var isFav: Boolean = false
+    private lateinit var gI: GameItems
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,14 +39,17 @@ class DetailActivity : AppCompatActivity(), DetailGameView.View {
 
         val treatment = ApiRepository.getAPI().create(ApiRestInterface::class.java)
         val demand = GameEventPresenter(treatment)
-        detPres = GameDetailPresenter(this,demand)
+        val repo = RepoPresenter(applicationContext)
 
-        val game = intent.getParcelableExtra<GameItems>("match")
-        detPres.getClubLogoAway(game.idAwayTeam)
-        detPres.getClubLogoHome(game.idHomeTeam)
+        detPres = GameDetailPresenter(this,demand, repo)
+
+        gI = intent.getParcelableExtra<GameItems>("match")
+        detPres.favState(gI.idEvent.toString())
+        detPres.getClubLogoAway(gI.idAwayTeam)
+        detPres.getClubLogoHome(gI.idHomeTeam)
 
         toast("Match Detail")
-        getGameItems(game)
+        getGameItems(gI)
 
         supportActionBar?.title = "Match Detail"
 
@@ -71,4 +91,45 @@ class DetailActivity : AppCompatActivity(), DetailGameView.View {
             .into(fc_away_logo)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean{
+        menuInflater.inflate(detail_menu, menu)
+        menuItem = menu
+        setFav()
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem):Boolean{
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            R.id.add_to_favorite -> {
+                if (!isFav){
+                    detPres.addToFav(
+                        gI.idEvent.toString(), gI.idHomeTeam, gI.idAwayTeam)
+                toast("Added to Favorite")
+                isFav = !isFav
+            }else{
+                detPres.removeFromFav(gI.idEvent.toString())
+                toast("Remove from Favorite")
+                isFav = !isFav
+            }
+            setFav()
+            true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setFav(){
+        if (isFav)
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite)
+        else
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_add_to_favorite)
+    }
+
+    override fun setFavState(favList: List<Favorite>) {
+        if(!favList.isEmpty()) isFav = true
+    }
 }

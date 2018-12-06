@@ -15,6 +15,14 @@
         android:icon="@drawable/ic_next"
         android:title="@string/next_match"
         app:showAsAction="ifRoom"
-    />
+        />
+
+    <item
+        android:id="@+id/favorite_match"
+        android:enabled="true"
+        android:icon="@drawable/ic_favorite"
+        android:title="@string/favorite"
+        app:showAsAction="ifRoom"
+        />
 
 </menu>

@@ -3,8 +3,9 @@ package com.andrew.associate.hellokotlin.view
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.andrew.associate.hellokotlin.R
-import com.andrew.associate.hellokotlin.view.fragment.NextMatchFragment
-import com.andrew.associate.hellokotlin.view.fragment.PrevMatchFragment
+import com.andrew.associate.hellokotlin.view.fragment.FavGameFragment
+import com.andrew.associate.hellokotlin.view.fragment.NextGameFragment
+import com.andrew.associate.hellokotlin.view.fragment.PrevGameFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast
 
@@ -24,6 +25,10 @@ class MainActivity : AppCompatActivity() {
                     toast("Next Match")
                     getNextGame(savedInstanceState)
                 }
+                R.id.favorite_match -> {
+                    toast("Your Favorite Match")
+                    getFavGame(savedInstanceState)
+                }
             }
             true
         }
@@ -36,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.main_container,
-                    PrevMatchFragment(), PrevMatchFragment::class.java.simpleName)
+                    PrevGameFragment(), PrevGameFragment::class.java.simpleName)
                 .commit()
         }
     }
@@ -46,11 +51,18 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.main_container,
-                    NextMatchFragment(), NextMatchFragment::class.java.simpleName)
+                    NextGameFragment(), NextGameFragment::class.java.simpleName)
                 .commit()
         }
     }
 
-
-
+    private fun getFavGame(savedInstanceState: Bundle?){
+        if(savedInstanceState == null){
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.main_container,
+                    FavGameFragment(), FavGameFragment::class.java.simpleName)
+                .commit()
+        }
+    }
 }

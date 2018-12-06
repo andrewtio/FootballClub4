@@ -31,6 +31,8 @@
     <string name="home_sub">Home Subtitutes</string>
     <string name="subtitutes">Subtitutes</string>
     <string name="away_sub">Away Subtitutes</string>
+    <string name="favorite">Favorite</string>
+    <string name="favorites">Favorites</string>
     <string-array name="club_name">
         <item>Barcelona FC</item>
         <item>Real Madrid FC</item>

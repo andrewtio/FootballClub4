@@ -1,5 +1,7 @@
-package com.andrew.associate.hellokotlin.model
+package com.andrew.associate.hellokotlin.model.intface
 
+import com.andrew.associate.hellokotlin.model.response.GameResponse
+import com.andrew.associate.hellokotlin.model.response.TeamResponses
 import io.reactivex.Flowable
 
 interface GameEventView{

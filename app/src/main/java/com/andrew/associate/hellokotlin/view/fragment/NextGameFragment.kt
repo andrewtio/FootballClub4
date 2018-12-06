@@ -7,27 +7,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.andrew.associate.hellokotlin.model.GameItems
-import com.andrew.associate.hellokotlin.model.PrevMatchView
+import com.andrew.associate.hellokotlin.model.intface.NextMatchView
 import com.andrew.associate.hellokotlin.model.api.ApiRepository
 import com.andrew.associate.hellokotlin.model.api.ApiRestInterface
 import com.andrew.associate.hellokotlin.model.invisible
 import com.andrew.associate.hellokotlin.model.visible
 import com.andrew.associate.hellokotlin.R
 import com.andrew.associate.hellokotlin.presenter.GameEventPresenter
-import com.andrew.associate.hellokotlin.presenter.PrevMatchPresenter
+import com.andrew.associate.hellokotlin.presenter.NextGamePresenter
 import com.andrew.associate.hellokotlin.presenter.RecyclerViewAdapter
-import kotlinx.android.synthetic.main.fragment_prev_match.*
+import kotlinx.android.synthetic.main.fragment_next_game.*
 
-class PrevMatchFragment : Fragment(), PrevMatchView.View
-{
-    private var mL: MutableList<GameItems> = mutableListOf()
+class NextGameFragment : Fragment(), NextMatchView.View {
 
-    private lateinit var pMP: PrevMatchPresenter
+    private var gI : MutableList<GameItems> = mutableListOf()
+
+    private lateinit var nMP : NextGamePresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.fragment_prev_match, container, false)
+        return inflater.inflate(R.layout.fragment_next_game, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -35,27 +35,30 @@ class PrevMatchFragment : Fragment(), PrevMatchView.View
         val treatment = ApiRepository.getAPI().create(ApiRestInterface::class.java)
         val demand = GameEventPresenter(treatment)
 
-        pMP = PrevMatchPresenter(this, demand)
-        pMP.getGamePrevItem()
+
+        nMP = NextGamePresenter(this, demand)
+        nMP.getGameNextItem()
 
     }
 
+
     override fun hideProgress() {
-        ProgressGamePrev.invisible()
-        rv_game_prev.visibility = View.VISIBLE
+        ProgressGameNext.invisible()
+        rv_game_next.visibility = View.VISIBLE
     }
 
     override fun showProgress() {
-        ProgressGamePrev.visible()
-        rv_game_prev.visibility = View.INVISIBLE
-    }
+        ProgressGameNext.visible()
+        rv_game_next.visibility = View.INVISIBLE
 
+    }
     override fun displayGame(gameItem: List<GameItems>) {
-        mL.clear()
-        mL.addAll(gameItem)
+        gI.clear()
+        gI.addAll(gameItem)
         val lM = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        rv_game_prev.layoutManager = lM
-        rv_game_prev.adapter = RecyclerViewAdapter(gameItem, context)
+        rv_game_next.layoutManager = lM
+        rv_game_next.adapter = RecyclerViewAdapter(gameItem,context)
     }
 
 }
+

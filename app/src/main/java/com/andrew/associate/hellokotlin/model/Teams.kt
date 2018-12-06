@@ -20,4 +20,5 @@ data class Teams(
     var strTeamBanner: String,
     @SerializedName("strTeamLogo")
     var strTeamLogo: String
+
 )

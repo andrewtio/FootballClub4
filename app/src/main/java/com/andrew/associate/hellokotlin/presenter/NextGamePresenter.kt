@@ -1,18 +1,19 @@
 package com.andrew.associate.hellokotlin.presenter
 
-import com.andrew.associate.hellokotlin.model.PrevMatchView
+import com.andrew.associate.hellokotlin.model.intface.NextMatchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class PrevMatchPresenter(private val mView : PrevMatchView.View, private val matchEventPresenter: GameEventPresenter) :
-    PrevMatchView.Presenter {
+class NextGamePresenter(private val mView: NextMatchView.View,
+                        private val gameEventPresenter: GameEventPresenter)
+    : NextMatchView.Presenter {
 
-    private val compositeDisposable = CompositeDisposable()
+    private val cD = CompositeDisposable()
 
-    override fun getGamePrevItem() {
+    override fun getGameNextItem() {
         mView.showProgress()
-        compositeDisposable.add(matchEventPresenter.getEventPastLeague("4332")
+        cD.add(gameEventPresenter.getEventNextLeague("4332")
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe {
