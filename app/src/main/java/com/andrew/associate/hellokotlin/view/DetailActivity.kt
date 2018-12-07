@@ -1,6 +1,5 @@
 package com.andrew.associate.hellokotlin.view
 
-import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -10,19 +9,14 @@ import com.andrew.associate.hellokotlin.model.*
 import com.andrew.associate.hellokotlin.model.api.ApiRepository
 import com.andrew.associate.hellokotlin.model.api.ApiRestInterface
 import com.andrew.associate.hellokotlin.R
-import com.andrew.associate.hellokotlin.R.id.add_to_favorite
 import com.andrew.associate.hellokotlin.R.menu.detail_menu
 import com.andrew.associate.hellokotlin.model.db.Favorite
-import com.andrew.associate.hellokotlin.model.db.database
 import com.andrew.associate.hellokotlin.model.intface.DetailGameView
 import com.andrew.associate.hellokotlin.model.repository.RepoPresenter
 import com.andrew.associate.hellokotlin.presenter.GameDetailPresenter
 import com.andrew.associate.hellokotlin.presenter.GameEventPresenter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail.*
-import org.jetbrains.anko.db.delete
-import org.jetbrains.anko.db.insert
-import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.toast
 
 class DetailActivity : AppCompatActivity(), DetailGameView.View {
@@ -43,7 +37,7 @@ class DetailActivity : AppCompatActivity(), DetailGameView.View {
 
         detPres = GameDetailPresenter(this,demand, repo)
 
-        gI = intent.getParcelableExtra<GameItems>("match")
+        gI = intent.getParcelableExtra("match")
         detPres.favState(gI.idEvent.toString())
         detPres.getClubLogoAway(gI.idAwayTeam)
         detPres.getClubLogoHome(gI.idHomeTeam)
