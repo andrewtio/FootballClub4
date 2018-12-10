@@ -7,6 +7,7 @@ import com.andrew.associate.hellokotlin.view.fragment.FavGameFragment
 import com.andrew.associate.hellokotlin.view.fragment.NextGameFragment
 import com.andrew.associate.hellokotlin.view.fragment.PrevGameFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity() {
@@ -15,25 +16,33 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val progressDialog = indeterminateProgressDialog("Getting Data! Please wait...")
+
+        progressDialog.show()
+
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.prev_match -> {
                     toast("Previous Match")
                     getPrevGame(savedInstanceState)
+                    return@setOnNavigationItemSelectedListener true
                 }
                 R.id.next_match -> {
                     toast("Next Match")
                     getNextGame(savedInstanceState)
+                    return@setOnNavigationItemSelectedListener true
                 }
                 R.id.favorite_match -> {
                     toast("Your Favorite Match")
                     getFavGame(savedInstanceState)
+                    return@setOnNavigationItemSelectedListener true
                 }
             }
-            true
+            false
         }
         bottom_navigation.selectedItemId = R.id.prev_match
 
+        progressDialog.dismiss()
     }
 
     private fun getPrevGame(savedInstanceState: Bundle?){

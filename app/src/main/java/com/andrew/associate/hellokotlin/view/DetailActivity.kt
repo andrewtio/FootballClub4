@@ -5,6 +5,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ProgressBar
 import com.andrew.associate.hellokotlin.model.*
 import com.andrew.associate.hellokotlin.model.api.ApiRepository
 import com.andrew.associate.hellokotlin.model.api.ApiRestInterface
@@ -12,7 +14,7 @@ import com.andrew.associate.hellokotlin.R
 import com.andrew.associate.hellokotlin.R.menu.detail_menu
 import com.andrew.associate.hellokotlin.model.db.Favorite
 import com.andrew.associate.hellokotlin.model.intface.DetailGameView
-import com.andrew.associate.hellokotlin.model.repository.RepoPresenter
+import com.andrew.associate.hellokotlin.model.support.SupportPresenter
 import com.andrew.associate.hellokotlin.presenter.GameDetailPresenter
 import com.andrew.associate.hellokotlin.presenter.GameEventPresenter
 import com.squareup.picasso.Picasso
@@ -22,10 +24,12 @@ import org.jetbrains.anko.toast
 class DetailActivity : AppCompatActivity(), DetailGameView.View {
 
     private lateinit var detPres: GameDetailPresenter
+    private lateinit var progressBar: ProgressBar
 
     private var menuItem: Menu? = null
     private var isFav: Boolean = false
     private lateinit var gI: GameItems
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,18 +37,22 @@ class DetailActivity : AppCompatActivity(), DetailGameView.View {
 
         val treatment = ApiRepository.getAPI().create(ApiRestInterface::class.java)
         val demand = GameEventPresenter(treatment)
-        val repo = RepoPresenter(applicationContext)
+        val support = SupportPresenter(applicationContext)
 
-        detPres = GameDetailPresenter(this,demand, repo)
+        detPres = GameDetailPresenter(this,demand, support)
+        progressBar = progress_bar_detail
+
+        showProgress(progressBar)
 
         gI = intent.getParcelableExtra("match")
         detPres.favState(gI.idEvent.toString())
         detPres.getClubLogoAway(gI.idAwayTeam)
         detPres.getClubLogoHome(gI.idHomeTeam)
 
-        toast("Match Detail")
         getGameItems(gI)
+        hideProgress(progressBar)
 
+        toast("Match Detail")
         supportActionBar?.title = "Match Detail"
 
     }
@@ -125,5 +133,13 @@ class DetailActivity : AppCompatActivity(), DetailGameView.View {
 
     override fun setFavState(favList: List<Favorite>) {
         if(!favList.isEmpty()) isFav = true
+    }
+
+    override fun showProgress(progressbar: ProgressBar){
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress(progressBar: ProgressBar){
+        progressBar.visibility = View.GONE
     }
 }

@@ -1,14 +1,15 @@
 package com.andrew.associate.hellokotlin.presenter
 
+import android.util.Log
 import com.andrew.associate.hellokotlin.model.intface.DetailGameView
-import com.andrew.associate.hellokotlin.model.repository.RepoPresenter
+import com.andrew.associate.hellokotlin.model.support.SupportPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class GameDetailPresenter (val gView : DetailGameView.View,
                            val gameEP: GameEventPresenter,
-                           val rP: RepoPresenter) : DetailGameView.Presenter{
+                           val rP: SupportPresenter) : DetailGameView.Presenter{
 
     val cD = CompositeDisposable()
 
@@ -17,9 +18,11 @@ class GameDetailPresenter (val gView : DetailGameView.View,
         cD.add(gameEP.getLookUpTeam(id)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe{
+            .doOnError{ error -> Log.d("MainClass", "Something Went Wrong")}
+            .subscribe({
                 gView.showClubLogoHome(it.teams[0])
-            })
+            },{ throwable -> Log.d("MainClass", "Something Went Wrong") })
+        )
     }
 
     override fun getClubLogoAway(id:String)

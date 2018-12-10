@@ -7,6 +7,7 @@ interface FavGameView {
         fun showProgress()
         fun hideProgress()
         fun showFavGame(gameList: List<GameItems>)
+        fun stealthSwipe()
     }
 
     interface Presenter{

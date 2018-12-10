@@ -1,5 +1,6 @@
 package com.andrew.associate.hellokotlin.model.intface
 
+import android.widget.ProgressBar
 import com.andrew.associate.hellokotlin.model.GameItems
 import com.andrew.associate.hellokotlin.model.Teams
 import com.andrew.associate.hellokotlin.model.db.Favorite
@@ -10,6 +11,8 @@ interface DetailGameView {
         fun showClubLogoHome(team: Teams)
         fun showClubLogoAway(team: Teams)
         fun setFavState(favList:List<Favorite>)
+        fun showProgress(progressBar: ProgressBar)
+        fun hideProgress(progressBar: ProgressBar)
     }
 
     interface Presenter{

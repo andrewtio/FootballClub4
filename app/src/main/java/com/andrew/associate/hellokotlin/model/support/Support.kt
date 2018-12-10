@@ -1,8 +1,8 @@
-package com.andrew.associate.hellokotlin.model.repository
+package com.andrew.associate.hellokotlin.model.support
 
 import com.andrew.associate.hellokotlin.model.db.Favorite
 
-interface Repo {
+interface Support {
 
     fun getGameDb(): List<Favorite>
 
