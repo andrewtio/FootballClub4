@@ -1,12 +1,12 @@
 package com.andrew.associate.hellokotlin.model.intface
 
-import com.andrew.associate.hellokotlin.model.GameItems
+import com.andrew.associate.hellokotlin.model.GameDetailDataItems
 
 interface FavGameView {
     interface View{
         fun showProgress()
         fun hideProgress()
-        fun showFavGame(gameList: List<GameItems>)
+        fun showFavGame(gameDetailDataList: List<GameDetailDataItems>)
         fun stealthSwipe()
     }
 

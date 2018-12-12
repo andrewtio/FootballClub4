@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import org.jetbrains.anko.db.*
 
-class FootballAppDatabaseHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "FootballApp.db", null,1) {
+class FootballAppDatabaseHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "FavoritesGame.db", null,1) {
 
     companion object {
         private var instance: FootballAppDatabaseHelper? = null
@@ -23,8 +23,6 @@ class FootballAppDatabaseHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Foo
         db.createTable(Favorite.TABLE_FAVORITE, true,
             Favorite.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             Favorite.GAME_ID to TEXT + UNIQUE,
-            Favorite.HOME_CLUB_ID to TEXT,
-            Favorite.AWAY_CLUB_ID to TEXT,
             Favorite.DATE_GAME to TEXT,
             Favorite.HOME_CLUB to TEXT,
             Favorite.AWAY_CLUB to TEXT,

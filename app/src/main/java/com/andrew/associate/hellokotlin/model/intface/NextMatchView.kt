@@ -1,12 +1,12 @@
 package com.andrew.associate.hellokotlin.model.intface
 
-import com.andrew.associate.hellokotlin.model.GameItems
+import com.andrew.associate.hellokotlin.model.GameDetailDataItems
 
 interface NextMatchView {
     interface View{
         fun hideProgress()
         fun showProgress()
-        fun displayGame(gameList:List<GameItems>)
+        fun displayGame(gameDetailDataList:List<GameDetailDataItems>)
 
     }
 

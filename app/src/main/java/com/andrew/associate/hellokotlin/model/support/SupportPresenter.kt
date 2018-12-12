@@ -27,9 +27,7 @@ class SupportPresenter(private val ctx: Context) : Support {
             ctx.database.use {
                 insert(
                     Favorite.TABLE_FAVORITE,
-                    Favorite.GAME_ID to gameId,
-                    Favorite.HOME_CLUB_ID to homeClubId,
-                    Favorite.AWAY_CLUB_ID to awayClubId)
+                    Favorite.GAME_ID to gameId)
             }
         }catch (e: SQLiteConstraintException){
             

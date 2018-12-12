@@ -1,50 +1,44 @@
 package com.andrew.associate.hellokotlin.presenter
 
-import android.util.Log
+import com.andrew.associate.hellokotlin.model.api.ApiRepository
+import com.andrew.associate.hellokotlin.model.api.ApiRestInterface
 import com.andrew.associate.hellokotlin.model.intface.DetailGameView
-import com.andrew.associate.hellokotlin.model.support.SupportPresenter
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import com.andrew.associate.hellokotlin.model.response.DetailGameResponse
+import com.andrew.associate.hellokotlin.model.response.ImageResponse
+import com.google.gson.Gson
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
-class GameDetailPresenter (val gView : DetailGameView.View,
-                           val gameEP: GameEventPresenter,
-                           val rP: SupportPresenter) : DetailGameView.Presenter{
+class GameDetailPresenter (public val dGView : DetailGameView,
+                           public val apiRepository: ApiRepository,
+                           public val gson: Gson) {
 
-    val cD = CompositeDisposable()
+    fun getClubImage ( club: String?, clubType: String?){
 
-    override fun getClubLogoHome(id: String)
-    {
-        cD.add(gameEP.getLookUpTeam(id)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .doOnError{ error -> Log.d("MainClass", "Something Went Wrong")}
-            .subscribe({
-                gView.showClubLogoHome(it.teams[0])
-            },{ throwable -> Log.d("MainClass", "Something Went Wrong") })
-        )
+        doAsync {
+            val dataClub = gson.fromJson(apiRepository
+                .doRequest(ApiRestInterface.getImageClub(club))
+                , ImageResponse::class.java)
+
+            uiThread{
+                if(clubType == "Away")
+                    dGView.showAwayClubImage(dataClub.teams)
+                else
+                    dGView.showHomeClubImage(dataClub.teams)
+            }
+        }
     }
 
-    override fun getClubLogoAway(id:String)
-    {
-        cD.add(gameEP.getLookUpTeam(id)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe{
-                gView.showClubLogoAway(it.teams[0])
-            })
-    }
+    fun getGameDetail (game: String?){
 
-    override fun addToFav (gameId: String, homeClubId: String, awayClubId: String){
-        rP.addFavItem(gameId, homeClubId, awayClubId)
-    }
+        doAsync{
+            val dataDetail = gson.fromJson ( apiRepository.doRequest(
+                ApiRestInterface.getLookupEvent(game))
+                , DetailGameResponse::class.java)
 
-    override fun removeFromFav(id: String){
-        rP.removeFavItem(id)
+            uiThread{
+                dGView.showDetailGame(dataDetail.events)
+            }
+        }
     }
-
-    override fun favState(id: String){
-        gView.setFavState(rP.scanFav(id))
-    }
-
 }

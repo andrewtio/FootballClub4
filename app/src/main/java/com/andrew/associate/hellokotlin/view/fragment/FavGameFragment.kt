@@ -3,55 +3,63 @@ package com.andrew.associate.hellokotlin.view.fragment
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.andrew.associate.hellokotlin.R
-import com.andrew.associate.hellokotlin.model.GameItems
-import com.andrew.associate.hellokotlin.model.api.ApiRepository
-import com.andrew.associate.hellokotlin.model.api.ApiRestInterface
-import com.andrew.associate.hellokotlin.model.formatDate
-import com.andrew.associate.hellokotlin.model.intface.FavGameView
+import com.andrew.associate.hellokotlin.model.db.Favorite
+import com.andrew.associate.hellokotlin.model.db.database
 import com.andrew.associate.hellokotlin.model.invisible
-import com.andrew.associate.hellokotlin.model.support.SupportPresenter
 import com.andrew.associate.hellokotlin.model.visible
-import com.andrew.associate.hellokotlin.presenter.FavGamePresenter
-import com.andrew.associate.hellokotlin.presenter.GameEventPresenter
-import com.andrew.associate.hellokotlin.presenter.RecyclerViewAdapter
-import kotlinx.android.synthetic.main.activity_detail.*
+import com.andrew.associate.hellokotlin.presenter.FavRecyclerViewAdapter
+import com.andrew.associate.hellokotlin.view.DetailActivity
 import kotlinx.android.synthetic.main.fragment_fav_game.*
-import kotlinx.android.synthetic.main.item_list_match.*
-import org.jetbrains.anko.support.v4.intentFor
+import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.select
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.onRefresh
-import java.lang.reflect.GenericArrayType
 
-class FavGameFragment: Fragment(), FavGameView.View {
+class FavGameFragment: Fragment(){
 
-    private var mL: MutableList<GameItems> = mutableListOf()
-    private lateinit var fGP: FavGamePresenter
-    private lateinit var adapter: RecyclerViewAdapter
-    private lateinit var gI: GameItems
+    private var favorite : MutableList<Favorite> = mutableListOf()
+    private lateinit var adapter: FavRecyclerViewAdapter
+    private lateinit var favList: RecyclerView
 
-    override fun showFavGame(gameList: List<GameItems>) {
-        mL.clear()
-        mL.addAll(gameList)
-        val lM = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        rv_game_fav.layoutManager = lM
-        rv_game_fav.adapter = RecyclerViewAdapter(gameList, context)
+    private fun showFavGame() {
+        context?.database?.use{
+            swipe_fav.isRefreshing = false
+            val outcome = select(Favorite.TABLE_FAVORITE)
+            val fav = outcome.parseList(classParser<Favorite>())
+            favorite.addAll(fav)
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?){
         super.onActivityCreated(savedInstanceState)
 
-        val treatment = ApiRepository.getAPI().create(ApiRestInterface::class.java)
-        val demand = GameEventPresenter(treatment)
-        val support = SupportPresenter(context!!)
+        adapter = FavRecyclerViewAdapter(favorite){
+            ctx.startActivity<DetailActivity>("id_event" to "${it.gameId}",
+                                                    "home_team" to "${it.homeClub}",
+                                                    "home_score" to "${it.homePoint}",
+                                                    "home_score" to "${it.homePoint}",
+                                                    "away_team" to "${it.awayClub}",
+                                                    "away_score" to "${it.awayPoint}",
+                                                    "away_score" to "${it.awayPoint}",
+                                                    "date_event" to "${it.dateGame}")
+        }
 
-        fGP = FavGamePresenter(this, demand, support)
-        fGP.getGameItem()
+        favList = rv_game_fav
+        favList.layoutManager = LinearLayoutManager(ctx)
+
+        favList.adapter = adapter
+        showFavGame()
 
         swipe_fav.onRefresh{
-            fGP.getGameItem()
+            favorite.clear()
+            showFavGame()
         }
     }
 
@@ -59,17 +67,17 @@ class FavGameFragment: Fragment(), FavGameView.View {
         return inflater.inflate(R.layout.fragment_fav_game, container, false)
     }
 
-    override fun showProgress() {
+    fun showProgress() {
         ProgressGameFav.visible()
         rv_game_fav.visibility=View.VISIBLE
     }
 
-    override fun hideProgress() {
+    fun hideProgress() {
         ProgressGameFav.invisible()
         rv_game_fav.visibility=View.INVISIBLE
     }
 
-    override fun stealthSwipe(){
+    fun stealthSwipe(){
         swipe_fav.isRefreshing = false
         ProgressGameFav.invisible()
         rv_game_fav.visibility = View.VISIBLE

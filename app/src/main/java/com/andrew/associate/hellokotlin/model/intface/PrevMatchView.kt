@@ -1,17 +1,12 @@
 package com.andrew.associate.hellokotlin.model.intface
 
-import com.andrew.associate.hellokotlin.model.GameItems
+import com.andrew.associate.hellokotlin.model.GameDataItems
+import com.andrew.associate.hellokotlin.model.GameDetailDataItems
 
 interface PrevMatchView {
-    interface View{
-        fun hideProgress()
-        fun showProgress()
-        fun displayGame(gameList:List<GameItems>)
 
-    }
+    fun hideLoading()
+    fun showLoading()
+    fun showDataGameItem(item: List<GameDataItems>)
 
-    interface Presenter{
-        fun getGamePrevItem()
-
-    }
 }

@@ -33,6 +33,7 @@
     <string name="away_sub">Away Subtitutes</string>
     <string name="favorite">Favorite</string>
     <string name="favorites">Favorites</string>
+    <string name="textDetails">%1$s\n%2$s</string>
     <string-array name="club_name">
         <item>Barcelona FC</item>
         <item>Real Madrid FC</item>
