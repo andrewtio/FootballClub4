@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.andrew.associate.hellokotlin.R
 import com.andrew.associate.hellokotlin.model.GameDataItems
+import com.andrew.associate.hellokotlin.model.formatDate
 import com.andrew.associate.hellokotlin.view.fragment.NextGameFragment
 import org.jetbrains.anko.find
 
@@ -36,7 +37,7 @@ class NextGameAdapter (private val gDI: MutableList<GameDataItems>,
         val intAwayScore  : TextView = v.find(R.id.away_point_tv)
 
         fun bind(game: GameDataItems, listener: NextGameFragment.OnFragLinkListener?) {
-            dateEvent.text = game.dateEvent
+            dateEvent.text = game.dateEvent?.formatDate()
             strHomeTeam.text = game.strHomeTeam
             strAwayTeam.text = game.strAwayTeam
             intHomeScore.text = game.intHomeScore

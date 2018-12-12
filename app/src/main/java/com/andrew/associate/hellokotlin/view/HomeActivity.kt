@@ -11,7 +11,6 @@ import com.andrew.associate.hellokotlin.view.fragment.NextGameFragment
 import com.andrew.associate.hellokotlin.view.fragment.PrevGameFragment
 import com.facebook.stetho.Stetho
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
@@ -48,20 +47,17 @@ class HomeActivity : AppCompatActivity(),
                 toast("Previous Match")
                 val frag = PrevGameFragment.freshInstance()
                 revealGameFragment(frag)
-                return@OnNavigationItemSelectedListener true
 
             }
             R.id.next_match -> {
                 toast("Next Match")
                 val frag = NextGameFragment.freshInstance()
                 revealGameFragment(frag)
-                return@OnNavigationItemSelectedListener true
             }
             R.id.favorite_match -> {
                 toast("Your Favorite Match")
                 val frag = FavGameFragment()
                 revealGameFragment(frag)
-                return@OnNavigationItemSelectedListener true
             }
         }
         false

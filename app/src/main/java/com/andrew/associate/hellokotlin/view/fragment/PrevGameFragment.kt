@@ -50,7 +50,7 @@ class PrevGameFragment : Fragment(), GameEventView
         progBar = v.ProgressGamePrev
 
         swipeRefPrev.onRefresh{
-            gEP.getGamePrevData("4335")
+            gEP.getGamePrevData("4328")
         }
 
         showLoading()
@@ -58,7 +58,7 @@ class PrevGameFragment : Fragment(), GameEventView
         val apiRepository = ApiRepository()
         val gson = Gson()
         gEP = GameEventPresenter(this, apiRepository,gson)
-        gEP.getGamePrevData("4335")
+        gEP.getGamePrevData("4328")
 
         return v
     }

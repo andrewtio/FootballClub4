@@ -45,7 +45,7 @@ class FavGameViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
     fun bind(favItem: Favorite, listener: (Favorite) -> Unit ) {
 
-        dateEvent.text = favItem.dateGame
+        dateEvent.text = favItem.dateGame?.formatDate()
         strHomeTeam.text = favItem.homeClub
         strAwayTeam.text = favItem.awayClub
         intHomeScore.text = favItem.homePoint

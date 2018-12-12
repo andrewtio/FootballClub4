@@ -9,9 +9,9 @@ import com.google.gson.Gson
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-class GameDetailPresenter (public val dGView : DetailGameView,
-                           public val apiRepository: ApiRepository,
-                           public val gson: Gson) {
+class GameDetailPresenter (val dGView : DetailGameView,
+                           val apiRepository: ApiRepository,
+                           val gson: Gson) {
 
     fun getClubImage ( club: String?, clubType: String?){
 

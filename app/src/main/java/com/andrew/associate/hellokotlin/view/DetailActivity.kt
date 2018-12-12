@@ -42,9 +42,6 @@ class DetailActivity : AppCompatActivity(), DetailGameView {
     private var away_score : String? = null
     private var date_event : String? = null
 
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -60,7 +57,7 @@ class DetailActivity : AppCompatActivity(), DetailGameView {
 
         progressBar = progress_bar_detail
 
-        detail_date_tv.text  = date_event
+        detail_date_tv.text  = date_event?.formatDate()
         fc_home_name.text   = home_team
         home_goal_detail_tv.text  = home_score
         fc_away_name.text   = away_team
@@ -87,38 +84,38 @@ class DetailActivity : AppCompatActivity(), DetailGameView {
     override fun showDetailGame(item: List<GameDetailDataItems>){
 
         // HOME
-        val home_GoalDetails    = getDataList(item[0].strHomeGoalDetails)
+        val home_GoalScorer    = getDataList(item[0].strHomeGoalDetails)
         val home_Shot           = getDataList(item[0].intHomeShots)
-        val home_GoalKeeper     = getDataList(item[0].strHomeLineupGoalkeeper)
-        val home_Defense        = getDataList(item[0].strHomeLineupDefense)
-        val home_Midfield       = getDataList(item[0].strHomeLineupMidfield)
-        val home_Forward        = getDataList(item[0].strHomeLineupForward)
-        val home_Substitutes    = getDataList(item[0].strHomeLineupSubstitutes)
+        val home_GK     = getDataList(item[0].strHomeLineupGoalkeeper)
+        val home_Def        = getDataList(item[0].strHomeLineupDefense)
+        val home_MF       = getDataList(item[0].strHomeLineupMidfield)
+        val home_FW        = getDataList(item[0].strHomeLineupForward)
+        val home_Sub    = getDataList(item[0].strHomeLineupSubstitutes)
 
-        setToTextDetails(home_GoalDetails, home_scorer_tv)
+        setToTextDetails(home_GoalScorer, home_scorer_tv)
         setToTextDetails(home_Shot, home_shots_tv)
-        setToTextDetails(home_GoalKeeper, home_gk_tv)
-        setToTextDetails(home_Defense, home_def_tv)
-        setToTextDetails(home_Midfield, home_mid_tv)
-        setToTextDetails(home_Forward, home_fw_tv)
-        setToTextDetails(home_Substitutes, home_sub_tv)
+        setToTextDetails(home_GK, home_gk_tv)
+        setToTextDetails(home_Def, home_def_tv)
+        setToTextDetails(home_MF, home_mid_tv)
+        setToTextDetails(home_FW, home_fw_tv)
+        setToTextDetails(home_Sub, home_sub_tv)
 
         // AWAY
-        val away_GoalDetails    = getDataList(item[0].strAwayGoalDetails)
+        val away_GoalScorer    = getDataList(item[0].strAwayGoalDetails)
         val away_Shot           = getDataList(item[0].intAwayShots)
-        val away_GoalKeeper     = getDataList(item[0].strAwayLineupGoalkeeper)
-        val away_Defense        = getDataList(item[0].strAwayLineupDefense)
-        val away_Midfield       = getDataList(item[0].strAwayLineupMidfield)
-        val away_Forward        = getDataList(item[0].strAwayLineupForward)
-        val away_Substitutes    = getDataList(item[0].strAwayLineupSubstitutes)
+        val away_GK     = getDataList(item[0].strAwayLineupGoalkeeper)
+        val away_Def        = getDataList(item[0].strAwayLineupDefense)
+        val away_MF       = getDataList(item[0].strAwayLineupMidfield)
+        val away_FW        = getDataList(item[0].strAwayLineupForward)
+        val away_Sub    = getDataList(item[0].strAwayLineupSubstitutes)
 
-        setToTextDetails(away_GoalDetails, away_scorer_tv)
+        setToTextDetails(away_GoalScorer, away_scorer_tv)
         setToTextDetails(away_Shot, away_shots_tv)
-        setToTextDetails(away_GoalKeeper, away_gk_tv)
-        setToTextDetails(away_Defense, away_def_tv)
-        setToTextDetails(away_Midfield, away_mid_tv)
-        setToTextDetails(away_Forward, away_fw_tv)
-        setToTextDetails(away_Substitutes, away_sub_tv)
+        setToTextDetails(away_GK, away_gk_tv)
+        setToTextDetails(away_Def, away_def_tv)
+        setToTextDetails(away_MF, away_mid_tv)
+        setToTextDetails(away_FW, away_fw_tv)
+        setToTextDetails(away_Sub, away_sub_tv)
 
         hideLoading(progressBar)
 
@@ -192,6 +189,7 @@ class DetailActivity : AppCompatActivity(), DetailGameView {
                     Favorite.HOME_POINT to home_score,
                     Favorite.AWAY_POINT to away_score)
             }
+            toast("Added to your Favorite List")
         }catch (e: SQLiteConstraintException){
 
         }
@@ -207,6 +205,7 @@ class DetailActivity : AppCompatActivity(), DetailGameView {
                     Favorite.TABLE_FAVORITE, "(GAME_ID = {id_event})",
                     "id_event" to id_event)
             }
+            toast("Removed from your Favorite List")
         }catch (e:SQLiteConstraintException){
 
         }

@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 object ApiRestInterface {
 
-    fun getEventsPastLeague(league: String? = "4335"): String {
+    fun getEventsPastLeague(league: String? = "4328"): String {
         return Uri.parse(BuildConfig.URL).buildUpon()
             .appendPath("api")
             .appendPath("v1")
@@ -22,7 +22,7 @@ object ApiRestInterface {
             .toString()
     }
 
-    fun getEventsNextLeague(league: String? = "4335"): String {
+    fun getEventsNextLeague(league: String? = "4328"): String {
         return Uri.parse(BuildConfig.URL).buildUpon()
             .appendPath("api")
             .appendPath("v1")
