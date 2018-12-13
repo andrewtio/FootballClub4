@@ -1,20 +1,15 @@
 package com.andrew.associate.hellokotlin.presenter
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.andrew.associate.hellokotlin.model.GameDetailDataItems
 import com.andrew.associate.hellokotlin.model.formatDate
 import com.andrew.associate.hellokotlin.R
 import com.andrew.associate.hellokotlin.model.db.Favorite
-import com.andrew.associate.hellokotlin.view.DetailActivity
-import kotlinx.android.synthetic.main.item_list_match.view.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.startActivity
 
 class FavRecyclerViewAdapter(private val fav: List<Favorite>,
                              private val listener: (Favorite) -> Unit)

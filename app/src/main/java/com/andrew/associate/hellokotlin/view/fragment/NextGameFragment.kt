@@ -16,10 +16,7 @@ import com.andrew.associate.hellokotlin.model.GameDataItems
 import com.andrew.associate.hellokotlin.model.intface.GameEventView
 import com.andrew.associate.hellokotlin.presenter.*
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.fragment_next_game.*
 import kotlinx.android.synthetic.main.fragment_next_game.view.*
-import kotlinx.android.synthetic.main.fragment_prev_game.*
-import kotlinx.android.synthetic.main.fragment_prev_game.view.*
 import org.jetbrains.anko.support.v4.onRefresh
 import java.lang.RuntimeException
 
