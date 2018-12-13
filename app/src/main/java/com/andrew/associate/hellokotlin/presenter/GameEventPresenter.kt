@@ -1,14 +1,11 @@
 package com.andrew.associate.hellokotlin.presenter
 
 import android.util.Log
-import com.andrew.associate.hellokotlin.model.GameDataItems
 import com.andrew.associate.hellokotlin.model.api.ApiRepository
 import com.andrew.associate.hellokotlin.model.response.GameResponse
-import com.andrew.associate.hellokotlin.model.response.TeamResponses
 import com.andrew.associate.hellokotlin.model.api.ApiRestInterface
 import com.andrew.associate.hellokotlin.model.intface.GameEventView
 import com.google.gson.Gson
-import io.reactivex.Flowable
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 

@@ -2,11 +2,6 @@ package com.andrew.associate.hellokotlin.model.api
 
 import android.net.Uri
 import com.andrew.associate.hellokotlin.BuildConfig
-import com.andrew.associate.hellokotlin.model.response.GameResponse
-import com.andrew.associate.hellokotlin.model.response.TeamResponses
-import io.reactivex.Flowable
-import retrofit2.http.GET
-import retrofit2.http.Query
 
 object ApiRestInterface {
 

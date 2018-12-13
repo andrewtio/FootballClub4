@@ -10,12 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import com.andrew.associate.hellokotlin.model.GameDetailDataItems
-import com.andrew.associate.hellokotlin.model.intface.NextMatchView
 import com.andrew.associate.hellokotlin.model.api.ApiRepository
-import com.andrew.associate.hellokotlin.model.api.ApiRestInterface
-import com.andrew.associate.hellokotlin.model.invisible
-import com.andrew.associate.hellokotlin.model.visible
 import com.andrew.associate.hellokotlin.R
 import com.andrew.associate.hellokotlin.model.GameDataItems
 import com.andrew.associate.hellokotlin.model.intface.GameEventView

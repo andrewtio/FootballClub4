@@ -11,15 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import com.andrew.associate.hellokotlin.model.api.ApiRepository
-import com.andrew.associate.hellokotlin.model.invisible
-import com.andrew.associate.hellokotlin.model.visible
 import com.andrew.associate.hellokotlin.R
 import com.andrew.associate.hellokotlin.model.GameDataItems
 import com.andrew.associate.hellokotlin.model.intface.GameEventView
 import com.andrew.associate.hellokotlin.presenter.GameEventPresenter
 import com.andrew.associate.hellokotlin.presenter.PrevGameAdapter
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.fragment_prev_game.*
 import kotlinx.android.synthetic.main.fragment_prev_game.view.*
 import org.jetbrains.anko.support.v4.onRefresh
 import java.lang.RuntimeException
