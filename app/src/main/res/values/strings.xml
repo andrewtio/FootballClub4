@@ -4,7 +4,6 @@
     <string name="next_match">Next Match</string>
     <string name="date">Wednesday, 05 December 2018</string>
     <string name="image">Image</string>
-    <string name="lineup">3-3-5</string>
     <string name="goal">10</string>
     <string name="versus">VS</string>
     <string name="away_team">Away Team</string>
@@ -34,36 +33,5 @@
     <string name="favorite">Favorite</string>
     <string name="favorites">Favorites</string>
     <string name="textDetails">%1$s\n%2$s</string>
-    <string-array name="club_name">
-        <item>Barcelona FC</item>
-        <item>Real Madrid FC</item>
-        <item>Bayern Munchen FC</item>
-        <item>Manchester City FC</item>
-        <item>Manchester United FC</item>
-        <item>Chelsea FC</item>
-        <item>AC Milan FC</item>
-        <item>Arsenal FC</item>
-    </string-array>
 
-    <array name="club_image">
-        <item>@drawable/img_barca</item>
-        <item>@drawable/img_madrid</item>
-        <item>@drawable/img_bayern</item>
-        <item>@drawable/img_city</item>
-        <item>@drawable/img_mu</item>
-        <item>@drawable/img_chelsea</item>
-        <item>@drawable/img_acm</item>
-        <item>@drawable/img_arsenal</item>
-    </array>
-
-    <string-array name="club_description">
-        <item>Deskripsi Barcelona FC</item>
-        <item>Deskripsi Real Madrid FC</item>
-        <item>Deskripsi Bayern Munchen FC</item>
-        <item>Deskripsi Manchester City FC</item>
-        <item>Deskripsi Manchester United FC</item>
-        <item>Deskripsi Chelsea FC</item>
-        <item>Deskripsi AC Milan FC</item>
-        <item>Deskripsi Arsenal FC</item>
-    </string-array>
 </resources>
