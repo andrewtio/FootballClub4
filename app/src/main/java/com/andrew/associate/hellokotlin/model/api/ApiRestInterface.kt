@@ -46,8 +46,8 @@ object ApiRestInterface {
 //            .build().toString()
     }
 
-    fun getImageClub(badgeTeam: String? = ""): String {
-        return BuildConfig.URL + "api/v1/json/${BuildConfig.API}" + "/searchteams.php?t=" + badgeTeam
+    fun getImageClub(idTeam: String? = ""): String {
+        return BuildConfig.URL + "api/v1/json/${BuildConfig.API}" + "/lookupteam.php?id=" + idTeam
 
 //        return Uri.parse(BuildConfig.URL).buildUpon()
 //            .appendPath("api")
