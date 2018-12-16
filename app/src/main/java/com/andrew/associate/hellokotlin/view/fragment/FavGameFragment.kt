@@ -67,19 +67,4 @@ class FavGameFragment: Fragment(){
         return inflater.inflate(R.layout.fragment_fav_game, container, false)
     }
 
-    fun showProgress() {
-        ProgressGameFav.visible()
-        rv_game_fav.visibility=View.VISIBLE
-    }
-
-    fun hideProgress() {
-        ProgressGameFav.invisible()
-        rv_game_fav.visibility=View.INVISIBLE
-    }
-
-    fun stealthSwipe(){
-        swipe_fav.isRefreshing = false
-        ProgressGameFav.invisible()
-        rv_game_fav.visibility = View.VISIBLE
-    }
 }

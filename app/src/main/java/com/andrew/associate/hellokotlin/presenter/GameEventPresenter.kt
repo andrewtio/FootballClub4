@@ -1,13 +1,13 @@
 package com.andrew.associate.hellokotlin.presenter
 
-import android.util.Log
 import com.andrew.associate.hellokotlin.model.api.ApiRepository
 import com.andrew.associate.hellokotlin.model.response.GameResponse
 import com.andrew.associate.hellokotlin.model.api.ApiRestInterface
 import com.andrew.associate.hellokotlin.model.intface.GameEventView
 import com.google.gson.Gson
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class GameEventPresenter(private val gEV: GameEventView,
                          private val apiRepository: ApiRepository,
@@ -15,30 +15,30 @@ class GameEventPresenter(private val gEV: GameEventView,
 
     fun getGamePrevData(competition: String?){
 
-        Log.d("debug","competition :" + competition)
+//        Log.d("debug","competition :" + competition)
 
-        doAsync {
+        GlobalScope.launch(Dispatchers.Main){
             val dataGame = gson.fromJson(apiRepository
-                .doRequest(ApiRestInterface.getEventsPastLeague(competition))
+                .doRequest(ApiRestInterface.getEventsPastLeague(competition)).await()
                 ,GameResponse::class.java
             )
-            Log.d("Debug", "data log: " + dataGame)
+//            Log.d("Debug", "data log: " + dataGame)
 
-            uiThread {
-                gEV.showItemGameList(dataGame.games)
-            }
+            gEV.showItemGameList(dataGame.games)
+
 
         }
     }
 
     fun getGameNextData(competition: String?) {
-        doAsync {
+
+        GlobalScope.launch(Dispatchers.Main){
             val dataGame = gson.fromJson( apiRepository
-                .doRequest(ApiRestInterface.getEventsNextLeague(competition))
+                .doRequest(ApiRestInterface.getEventsNextLeague(competition)).await()
                 , GameResponse::class.java )
 
-            Log.d("Debug", "data log: " + dataGame)
-            uiThread { gEV.showItemGameList(dataGame.games) }
+//            Log.d("Debug", "data log: " + dataGame)
+            gEV.showItemGameList(dataGame.games)
         }
     }
 }

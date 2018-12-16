@@ -3,8 +3,8 @@ package com.andrew.associate.hellokotlin.view
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -25,6 +25,7 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.toast
 
 class DetailActivity : AppCompatActivity(), DetailGameView {
@@ -32,6 +33,7 @@ class DetailActivity : AppCompatActivity(), DetailGameView {
     private lateinit var detPres: GameDetailPresenter
     private lateinit var progressBar: ProgressBar
 
+    private lateinit var swipeFav: SwipeRefreshLayout
     private var menuItem: Menu? = null
     private var isFav: Boolean = false
     private lateinit var idEvent: String
@@ -175,7 +177,9 @@ class DetailActivity : AppCompatActivity(), DetailGameView {
 
     private fun addFavItem(){
 
-        Log.d("Debug", "AddFavItem")
+//        Log.d("Debug", "AddFavItem")
+
+        swipeFav = swipe_detail
 
         try {
             database.use {
@@ -188,15 +192,17 @@ class DetailActivity : AppCompatActivity(), DetailGameView {
                     Favorite.HOME_POINT to homeScore,
                     Favorite.AWAY_POINT to awayScore)
             }
-            toast("Added to your Favorite List")
+            snackbar(swipeFav, "Added to Your Favorite Game").show()
         }catch (e: SQLiteConstraintException){
-
+            snackbar(swipeFav, e.localizedMessage).show()
         }
     }
 
     private fun removeFavItem(){
 
-        Log.d("Debug", "removeFavItem")
+//        Log.d("Debug", "removeFavItem")
+
+        swipeFav = swipe_detail
 
         try {
             database.use {
@@ -204,9 +210,9 @@ class DetailActivity : AppCompatActivity(), DetailGameView {
                     Favorite.TABLE_FAVORITE, "(GAME_ID = {id_event})",
                     "id_event" to idEvent)
             }
-            toast("Removed from your Favorite List")
+            snackbar(swipeFav, "Removed from your Favorite Game").show()
         }catch (e:SQLiteConstraintException){
-
+            snackbar(swipeFav, e.localizedMessage).show()
         }
     }
 

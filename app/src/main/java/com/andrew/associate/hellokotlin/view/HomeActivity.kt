@@ -5,6 +5,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.andrew.associate.hellokotlin.R
+import com.andrew.associate.hellokotlin.R.id.prev_match
 import com.andrew.associate.hellokotlin.model.GameDataItems
 import com.andrew.associate.hellokotlin.view.fragment.FavGameFragment
 import com.andrew.associate.hellokotlin.view.fragment.NextGameFragment
@@ -28,6 +29,7 @@ class HomeActivity : AppCompatActivity(),
 
         bottom_navigation_home.setOnNavigationItemSelectedListener(BottomNavigationItemSelectedListener)
 
+        bottom_navigation_home.selectedItemId = prev_match
     }
 
     override fun onFragmentLink(game: GameDataItems) {
@@ -60,7 +62,7 @@ class HomeActivity : AppCompatActivity(),
                 revealGameFragment(frag)
             }
         }
-        false
+        true
     }
 
     private fun revealGameFragment(fragment: Fragment){

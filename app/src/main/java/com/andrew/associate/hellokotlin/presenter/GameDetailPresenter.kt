@@ -6,6 +6,9 @@ import com.andrew.associate.hellokotlin.model.intface.DetailGameView
 import com.andrew.associate.hellokotlin.model.response.DetailGameResponse
 import com.andrew.associate.hellokotlin.model.response.ImageResponse
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -15,30 +18,30 @@ class GameDetailPresenter (val dGView : DetailGameView,
 
     fun getClubImage ( club: String?, clubType: String?){
 
-        doAsync {
+        GlobalScope.launch(Dispatchers.Main){
             val dataClub = gson.fromJson(apiRepository
-                .doRequest(ApiRestInterface.getImageClub(club))
+                .doRequest(ApiRestInterface.getImageClub(club)).await()
                 , ImageResponse::class.java)
 
-            uiThread{
-                if(clubType == "Away")
-                    dGView.showAwayClubImage(dataClub.teams)
-                else
-                    dGView.showHomeClubImage(dataClub.teams)
-            }
+
+            if(clubType == "Away")
+                dGView.showAwayClubImage(dataClub.teams)
+            else
+                dGView.showHomeClubImage(dataClub.teams)
+
         }
     }
 
     fun getGameDetail (game: String?){
 
-        doAsync{
+        GlobalScope.launch(Dispatchers.Main){
             val dataDetail = gson.fromJson ( apiRepository.doRequest(
-                ApiRestInterface.getLookupEvent(game))
+                ApiRestInterface.getLookupEvent(game)).await()
                 , DetailGameResponse::class.java)
 
-            uiThread{
-                dGView.showDetailGame(dataDetail.events)
-            }
+
+            dGView.showDetailGame(dataDetail.events)
+
         }
     }
 }
